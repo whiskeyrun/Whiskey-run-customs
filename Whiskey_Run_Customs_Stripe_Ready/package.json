@@ -1,0 +1,9 @@
+{
+  "name": "whiskey-run-customs-storefront",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "stripe": "^18.5.0"
+  }
+}
