@@ -1,0 +1,95 @@
+WHISKEY RUN CUSTOMS SOURCE INSPECTION\nFILE Whiskey_Run_Customs_Stripe_Ready/README.txt (2200 bytes)\nFILE Whiskey_Run_Customs_Stripe_Ready/netlify/functions/create-checkout.mjs (2666 bytes)\nLINES 68; CHARS 2666\n  stripe: 8 matches\n    import Stripe from 'stripe';
+
+const PRODUCTS = {
+  4: { name: 'Laser-Engraved RFID Wallets', amount: 6000 },
+  5: { name: 'Slate Coasters', amount: 2000 },
+  6: { name: 'Small Slate Charcuterie Boards', amount: 2500 },
+  7: { name: 'Large Slate Charcuterie Boards', amount: 5000 },
+};
+
+export default async (reque\n    import Stripe from 'stripe';
+
+const PRODUCTS = {
+  4: { name: 'Laser-Engraved RFID Wallets', amount: 6000 },
+  5: { name: 'Slate Coasters', amount: 2000 },
+  6: { name: 'Small Slate Charcuterie Boards', amount: 2500 },
+  7: { name: 'Large Slate Charcuterie Boards', amount: 5000 },
+};
+
+export default async (request) => {
+  if\n    SON.stringify({ error: 'Method not allowed.' }), {
+      status: 405, headers: { 'Content-Type': 'application/json', 'Allow': 'POST' }
+    });
+  }
+
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    return new Response(JSON.stringify({ error: 'Stripe is not configured yet. Please contact the store.' }), {
+      status: 503, headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  try {
+    const body = await request.json();
+    if (!Array.isArray(body.\n  product: 7 matches\n    import Stripe from 'stripe';
+
+const PRODUCTS = {
+  4: { name: 'Laser-Engraved RFID Wallets', amount: 6000 },
+  5: { name: 'Slate Coasters', amount: 2000 },
+  6: { name: 'Small Slate Charcuterie Boards', amount: 2500 },
+  7: { name: 'Large Slate Charcuterie Boards', amount: 5000 },
+};
+
+export default async (request) => {
+  if (request.method \n    error: 'Your cart is empty or invalid.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    const line_items = body.items.map((item) => {
+      const product = PRODUCTS[Number(item.id)];
+      const quantity = Number(item.quantity);
+      if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 20) {
+        throw new Error('One or more cart items are invalid. Please refresh and try again.');
+      }
+      return {
+        quantity,
+   \n    ur cart is empty or invalid.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    const line_items = body.items.map((item) => {
+      const product = PRODUCTS[Number(item.id)];
+      const quantity = Number(item.quantity);
+      if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 20) {
+        throw new Error('One or more cart items are invalid. Please refresh and try again.');
+      }
+      return {
+        quantity,
+        price\nFILE Whiskey_Run_Customs_Stripe_Ready/netlify.toml (103 bytes)\nLINES 6; CHARS 103\nFILE Whiskey_Run_Customs_Stripe_Ready/package.json (157 bytes)\nLINES 9; CHARS 157\n  stripe: 1 matches\n    {
+  "name": "whiskey-run-customs-storefront",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "stripe": "^18.5.0"
+  }
+}
+\nFILE Whiskey_Run_Customs_Stripe_Ready/public/index.html (3467356 bytes)\nLINES 185; CHARS 3467260\n  create-checkout: 1 matches\n    .length)return;const btn=document.getElementById('checkout');btn.disabled=true;btn.textContent='Connecting to secure checkout…';try{const response=await fetch('/.netlify/functions/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Unable to start checkout.');window.location.href=data.url;}catch(err){alert(err.message);btn.disabled=false;btn.textContent='Pay s\n  stripe: 5 matches\n    er-foot"><div class="total"><span>Fixed-price subtotal</span><span id="subtotal">$0.00</span></div><button class="primary-btn" id="checkout" style="display:none">Pay securely with Stripe</button><button class="outline-btn" id="quoteCheckout" style="display:none;width:100%;margin-top:10px">Request a custom quote</button><p class="note">Card details are entered only on Stripe’s secure hosted checkout. Custom-priced items are quoted separately.</p></div></aside>
+<div class="modal" id=\n    tton><button class="outline-btn" id="quoteCheckout" style="display:none;width:100%;margin-top:10px">Request a custom quote</button><p class="note">Card details are entered only on Stripe’s secure hosted checkout. Custom-priced items are quoted separately.</p></div></aside>
+<div class="modal" id="checkoutModal"><div class="modal-card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="eyebrow">Checkout</div><button class="close" id="closeModal">×<\n    onse.ok)throw new Error(data.error||'Unable to start checkout.');window.location.href=data.url;}catch(err){alert(err.message);btn.disabled=false;btn.textContent='Pay securely with Stripe';}};
+document.getElementById('quoteCheckout').onclick=()=>{if(!cart.some(i=>i.price===0))return;hideCart();document.getElementById('checkoutModal').classList.add('open');};
+document.getElementById('closeModal').onclick=()=>document.getElementById('checkoutModal').classList.remove('open');
+document.\n  product: 28 matches\n    ; margin-bottom:30px; }
+.section h2 { font-size:clamp(34px,4vw,48px); margin:10px 0 0; }
+.section-head p { color:var(--muted); font-size:13px; max-width:330px; line-height:1.6; }
+.products { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.product { background:var(--surface); border:1px solid var(--line); }
+.product-art { aspect-ratio: 1.15; display:grid; place-items:center; background:linear-gradient(145deg,#38352c,#1e1e19); color:#d2a66d; position:relative; overflow\n    n:10px 0 0; }
+.section-head p { color:var(--muted); font-size:13px; max-width:330px; line-height:1.6; }
+.products { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.product { background:var(--surface); border:1px solid var(--line); }
+.product-art { aspect-ratio: 1.15; display:grid; place-items:center; background:linear-gradient(145deg,#38352c,#1e1e19); color:#d2a66d; position:relative; overflow:hidden; }
+.product-art:before { content:""; position:absolute; width:62%; \n    x-width:330px; line-height:1.6; }
+.products { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.product { background:var(--surface); border:1px solid var(--line); }
+.product-art { aspect-ratio: 1.15; display:grid; place-items:center; background:linear-gradient(145deg,#38352c,#1e1e19); color:#d2a66d; position:relative; overflow:hidden; }
+.product-art:before { content:""; position:absolute; width:62%; aspect-ratio:1; border:1px solid #b77a3580; border-radius:50%; }
+.prod
