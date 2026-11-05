@@ -1,0 +1,36 @@
+name: Unpack website archive
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Whiskey_Run_Customs_Stripe_Ready.zip'
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Extract website files
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/wrc-unpacked
+          unzip -q -o "Whiskey_Run_Customs_Stripe_Ready.zip" -d /tmp/wrc-unpacked
+          src="/tmp/wrc-unpacked"
+          dirs=$(find /tmp/wrc-unpacked -mindepth 1 -maxdepth 1 -type d | wc -l)
+          files=$(find /tmp/wrc-unpacked -mindepth 1 -maxdepth 1 -type f | wc -l)
+          if [ "$dirs" -eq 1 ] && [ "$files" -eq 0 ]; then
+            src=$(find /tmp/wrc-unpacked -mindepth 1 -maxdepth 1 -type d | head -n 1)
+          fi
+          rsync -a --exclude='.git' --exclude='.github' "$src"/ ./
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No extracted file changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Extract Whiskey Run Customs website files [skip ci]"
+          git push
